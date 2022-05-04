@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<!-- Author: Ali Elbekov -->
+<head>
+<link rel="stylesheet" type="text/css" href="bestreads.css" />
+<title>Best Reads</title>
+</head>
+<body onload="showAllCovers()">
+
+<div class="header">
+<div>
+  <span>bestreads</span>
+</div>
+  <span class="back" onclick="showAllCovers()">home</span>
+</div>
+<div id="dataPage">
+</div>
+
+
+<script>
+function showAllCovers() {
+var ajax = new XMLHttpRequest();
+ajax.open('GET', 'bestreads.php?message=home', true);
+ajax.send();
+ajax.onreadystatechange = function(){
+  if(ajax.readyState ===4 && ajax.status ===200){
+    var books = JSON.parse(ajax.responseText);
+    var forInnerHtml = "";
+    for(var i = 0 ; i< books.length ; i++){
+      forInnerHtml += books[i];
+    }
+    var aDiv = document.getElementById("dataPage");
+    aDiv.innerHTML = forInnerHtml;
+  }
+ }
+}
+
+
+function pageOpener(bookName){
+var ajax = new XMLHttpRequest();
+
+ajax.open('GET', 'bestreads.php?message='+bookName, true);
+ajax.send();
+ajax.onreadystatechange = function(){
+  if(ajax.readyState ===4 && ajax.status ===200){
+    var pageData = JSON.parse(ajax.responseText);
+	var aDiv = document.getElementById("dataPage");
+	aDiv.innerHTML = pageData;
+  } 
+ }
+}
+
+
+</script>
+
+</body>
+</html>
